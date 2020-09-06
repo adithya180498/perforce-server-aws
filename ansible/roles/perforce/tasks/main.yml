@@ -1,0 +1,69 @@
+---
+
+- name: Check that the file successfully_installed exists
+  stat:
+    path: ~/successfully_installed
+  register: stat_result
+
+- name: Copy file with owner and permissions
+  copy:
+    src: userinput.secret
+    dest: ~/userinput.secret
+    mode: '0755'  
+  when: stat_result.stat.exists == false
+
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: "yes"
+    update_cache: yes
+  when: stat_result.stat.exists == false
+
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  become: true
+  apt_key:
+    url: https://package.perforce.com/perforce.pubkey
+    state: present
+  when: stat_result.stat.exists == false
+
+  
+- name: add perforce package
+  become: true
+  apt_repository:
+    repo: deb http://package.perforce.com/apt/ubuntu bionic release
+    state: present
+  when: stat_result.stat.exists == false
+
+
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    update_cache: yes
+  when: stat_result.stat.exists == false
+
+
+- name: install helix core
+  become: true
+  apt:
+    name: helix-p4d
+    state: present
+  when: stat_result.stat.exists == false
+
+
+- name: configure helix
+  become: true
+  expect:
+    command: |
+      /opt/perforce/sbin/configure-helix-p4d.sh master -n -p ssl:1666 -r /opt/perforce/servers/master -u {{admin_name}} -P {{admin_pass}}
+    responses:
+      admin_name: "{{ admin_name }}"
+      admin_pass: "{{ admin_pass }}"
+    timeout: null
+  when: stat_result.stat.exists == false
+
+- name: touch successfully_installed
+  file:
+    path: ~/successfully_installed
+    state: touch
+

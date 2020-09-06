@@ -1,0 +1,13 @@
+Host *
+	SendEnv LANG LC_*
+  StrictHostKeyChecking no
+  User ubuntu
+  IdentityFile /home/socke/.pem_files/perforce-server-aws-nord-virgina.pem
+
+Host perforce
+  HostName ec2-54-161-106-124.compute-1.amazonaws.com
+  ControlMaster auto
+  ControlPath ~/.ssh/ansible-%r@%h:%p
+  ControlPersist 5m
+  ForwardAgent yes
+  ForwardX11 yes

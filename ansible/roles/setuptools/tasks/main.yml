@@ -1,0 +1,5 @@
+- name: install setuptools
+  become: yes
+  apt:
+    name: python-setuptools
+    state: present

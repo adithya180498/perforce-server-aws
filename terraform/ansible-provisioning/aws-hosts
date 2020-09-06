@@ -1,0 +1,6 @@
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/home/socke/.pem_files/perforce-server-aws-nord-virgina.pem
+
+[perforce]
+ec2-54-161-106-124.compute-1.amazonaws.com

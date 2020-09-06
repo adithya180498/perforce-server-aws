@@ -1,0 +1,10 @@
+---
+- name: install  docker
+  become: true
+  apt: 
+    name: docker.io
+    state: present
+    
+- name: add user mod
+  become: yes
+  command: usermod -aG docker {{ansible_user}}
