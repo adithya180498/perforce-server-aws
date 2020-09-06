@@ -1,10 +1,9 @@
-# Pointcloud Tiler Cloud Deployment
+# Perfoce Cloud Deployment
 
 ## AWS
 
 ### Requirements
 
-* Packer
 * Terraform
 * Ansible
 * Python
@@ -46,10 +45,8 @@ Default output format [json]: <Output format of CLI>
 
 create a new role in ~/.aws/config 
 
-[profile produser]
-role_arn = arn:aws:iam::<Your Role ID>:role/oe240/FraunhoferUserRole
-source_profile = default
-region = us-west-2
+[profile your profile name]
+region = your region
 output = json
 
 ### Build the AWS AMI
@@ -81,7 +78,7 @@ To use the generated ssh-config file you have to either
 1) use the connect make command 
 2) move the config file to the specific location ```~/.ssh/config```
 
-Connect to the Pointcloud-Tiler Instance:
+Connect to the Perfoce Instance:
 
 ```
 make connect
