@@ -1,0 +1,31 @@
+---
+
+- name: create perforce checkpoint
+  become: true
+  command: |
+    p4d -jc
+  args:
+    chdir: "{{p4root}}"
+  environment:
+    P4ROOT: "{{p4root}}"
+  
+- name: create perforce checkpoint
+  become: true
+  command: |
+    p4d -jc
+  args:
+    chdir: /opt/perforce/servers/master
+  register: p4d_jc_result
+  environment:
+    P4ROOT: "{{p4root}}"
+
+- name: throw error if checkpoint creation return != 0
+  fail:
+    msg: " p4d -jc returned non zero: {{p4d_jc_result}}"
+  when: p4d_jc_result != 0
+
+- name: download backup to local machine
+  synchronize:  src={{ item }} dest=/tmp/ mode=pull
+  with_items:
+    - "{{p4root}}/archive/depot/resource_war"
+    - "{{p4root}}/journals/journal"

@@ -1,3 +1,4 @@
 all:
   vars:
     home_dir: /home/ubuntu
+    p4root: /opt/perforce/servers/master
