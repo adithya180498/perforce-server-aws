@@ -1,4 +1,4 @@
-ince .env
+ince .env rahul
 export $(shell sed 's/=.*//' .env)
 
 ssh:= ssh -F terraform/ssh_config
